@@ -34,19 +34,6 @@
             height: auto;
         }
 
-        .instructions {
-            text-align: center;
-            background-color: #eef2f7;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 0 auto 40px auto;
-            max-width: 850px;
-            border-left: 6px solid var(--essentra-red);
-            font-size: 1rem;
-            line-height: 1.5;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-
         .dashboard-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -146,6 +133,25 @@
         .link-text {
             flex: 1;
         }
+
+        .usage-tip {
+            margin: -8px 0 24px;
+            color: var(--essentra-dark-grey);
+            font-size: 0.9rem;
+        }
+
+        .usage-tip summary {
+            width: fit-content;
+            color: var(--essentra-red);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .usage-tip p {
+            max-width: 680px;
+            margin: 10px 0 0;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -155,15 +161,16 @@
         <img src="https://www.essentracomponents.com.br/set-ap/assets/essentra-logo.png" alt="Essentra Components Logo">
     </div>
 
-    <div class="instructions">
-        <strong><i class="fa-solid fa-circle-info"></i> Dica de Uso:</strong> Para instalar as automações do Dynamics 365, clique no botão desejado, mantenha o clique pressionado e <strong>arraste para a sua barra de favoritos</strong>. Elas rodarão perfeitamente quando você estiver com o ambiente CE aberto.
-    </div>
-
     <div class="dashboard-container">
 
         <!-- 1. Automações CE - Dynamics 365 -->
         <div class="card dynamics">
             <h2><i class="fa-brands fa-microsoft"></i> Automações CE - Dynamics 365</h2>
+
+            <details class="usage-tip">
+                <summary><i class="fa-solid fa-circle-info"></i> Como instalar as automações?</summary>
+                <p>Clique no botão desejado, mantenha o clique pressionado e arraste-o para a sua barra de favoritos. As automações funcionam quando o ambiente CE está aberto.</p>
+            </details>
             
             <a class="link-item" title="Arraste para os favoritos" href="javascript:(async()=>{const js=await fetch('https://raw.githubusercontent.com/filipegodoiessentra/dynamics-snippets/refs/heads/filipegodoiessentra-patch-1/leads-route?t='+Date.now()).then(r=>r.text());eval(js);})();">
                 <i class="fa-solid fa-route"></i> 
