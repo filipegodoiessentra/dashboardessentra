@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentação — Gerenciamento de Listas</title>
+<style>
+  :root{
+    --navy:#4e4d50;
+    --navy-dark:#2d2c2f;
+    --accent:#dc0814;
+    --accent-dark:#b80610;
+    --bg:#f5f5f5;
+    --card:#ffffff;
+    --border:#e7e7e7;
+    --text:#1f1f1f;
+    --text-muted:#6f7072;
+    --radius:10px;
+    --shadow:0 2px 8px rgba(78,77,80,.09);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  a{color:var(--accent-dark);}
+
+  #layout{display:flex;min-height:100vh;}
+
+  /* ===== Índice lateral ===== */
+  nav#toc{
+    width:270px;flex-shrink:0;background:linear-gradient(180deg, var(--navy) 0%, #2f2d2f 100%);
+    color:#f5f5f5;position:sticky;top:0;align-self:flex-start;height:100vh;overflow-y:auto;padding-bottom:20px;
+  }
+  nav#toc .brand{padding:20px 20px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.12);}
+  nav#toc .brand img{width:110px;height:auto;}
+  nav#toc h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#c9c9ca;padding:16px 20px 6px;margin:0;}
+  nav#toc a{display:block;padding:9px 20px;font-size:13.5px;color:#d9d9d9;text-decoration:none;border-left:3px solid transparent;}
+  nav#toc a:hover{background:rgba(255,255,255,.06);color:#fff;}
+  nav#toc a.sub{padding-left:34px;font-size:12.5px;color:#b9b9ba;}
+
+  main{flex:1;min-width:0;padding:32px 44px 80px;max-width:900px;}
+  header.hero{margin-bottom:28px;}
+  header.hero h1{font-size:26px;margin:0 0 8px;color:var(--navy);}
+  header.hero p{color:var(--text-muted);font-size:14.5px;max-width:680px;}
+
+  section{margin-bottom:34px;scroll-margin-top:20px;}
+  section h2{font-size:19px;color:var(--navy);border-bottom:2px solid var(--border);padding-bottom:8px;margin:0 0 14px;display:flex;align-items:center;gap:8px;}
+  section h3{font-size:15.5px;color:var(--navy-dark);margin:20px 0 8px;}
+  p{line-height:1.65;font-size:14px;}
+  ul, ol{line-height:1.7;font-size:14px;padding-left:22px;}
+  li{margin-bottom:4px;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:14px;}
+  .step{display:flex;gap:14px;margin-bottom:14px;}
+  .step .num{
+    flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .step .body{flex:1;}
+  .step .body strong{color:var(--navy);}
+
+  code, kbd{background:#eef0f2;border:1px solid #dfe2e6;border-radius:5px;padding:1px 6px;font-size:12.5px;font-family:Consolas,monospace;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0 16px;}
+  thead th{text-align:left;background:#fafbfd;border-bottom:2px solid var(--border);padding:8px 10px;color:var(--text-muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
+  tbody td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+
+  .callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13.5px;line-height:1.6;border-left:4px solid;}
+  .callout.info{background:#eef4ff;border-color:#2563eb;}
+  .callout.warn{background:#fff8e6;border-color:#d97706;}
+  .callout.tip{background:#e8f8ee;border-color:#16a34a;}
+
+  .pill{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11.5px;font-weight:600;background:#eef2ff;color:#3730a3;}
+  .icon-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:var(--navy);color:#fff;font-size:12px;margin-right:4px;}
+
+  .toc-mobile-toggle{display:none;}
+
+  @media (max-width: 900px){
+    #layout{flex-direction:column;}
+    nav#toc{width:100%;height:auto;position:relative;}
+    main{padding:24px 18px 60px;max-width:none;}
+  }
+</style>
+</head>
+<body>
+<div id="layout">
+
+  <!-- ===== Índice ===== -->
+  <nav id="toc">
+    <div class="brand">
+      <img src="https://www.essentracomponents.com.br/set-ap/assets/essentra-logo.png" alt="Essentra">
+    </div>
+    <h2>Sumário</h2>
+    <a href="#visao-geral">Visão geral</a>
+    <a href="#primeiros-passos">Primeiros passos</a>
+    <a href="#dashboard">📊 Dashboard &amp; Pesquisa</a>
+    <a href="#duplicados">🧬 Duplicados</a>
+    <a href="#analise-preco">💲 Análise de Preço</a>
+    <a href="#analise-preco-bpcs" class="sub">Cruzamento com BPCS</a>
+    <a href="#analise-preco-percentuais" class="sub">Percentuais de reajuste</a>
+    <a href="#analise-preco-conferencia" class="sub">Conferência rápida de itens</a>
+    <a href="#analise-preco-reajuste" class="sub">Calcular preço reajustado</a>
+    <a href="#analise-preco-comparativo" class="sub">Comparativo gerenciamento</a>
+    <a href="#historico">🕘 Histórico</a>
+    <a href="#configuracoes">⚙️ Configurações</a>
+    <a href="#configuracoes-percentuais-padrao" class="sub">Percentuais padrão de reajuste</a>
+    <a href="#duvidas">Perguntas frequentes</a>
+  </nav>
+
+  <!-- ===== Conteúdo ===== -->
+  <main>
+    <header class="hero">
+      <h1>Documentação — Gerenciamento de Listas</h1>
+      <p>Guia de uso do aplicativo web <strong>Gerenciamento de Listas</strong>, usado para indexar listas de preço MSS (Excel), pesquisar clientes, identificar duplicidades e conferir/reajustar preços a partir do histórico de vendas do BPCS. Tudo roda direto no navegador — nenhum dado é enviado para servidores externos.</p>
+    </header>
+
+    <section id="visao-geral">
+      <h2>📖 Visão geral</h2>
+      <p>O aplicativo é um único arquivo HTML que funciona offline, sem instalação. Os dados extraídos dos arquivos Excel ficam salvos localmente no navegador (IndexedDB), então <strong>o índice fica no computador/navegador onde os arquivos foram importados</strong>. Se você abrir o app em outro computador ou outro navegador, será necessário selecionar a pasta novamente.</p>
+      <div class="callout info">
+        <strong>Requisito dos arquivos:</strong> os arquivos Excel devem seguir o padrão de nome <code>AAAA-MM-DD.xlsx</code> (ex.: <code>2026-08-14.xlsx</code>) e cada aba da planilha deve representar um cliente (nome da aba = número do cliente).
+      </div>
+    </section>
+
+    <section id="primeiros-passos">
+      <h2>🚀 Primeiros passos</h2>
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body"><strong>Selecionar pasta.</strong> No topo da tela, clique em <span class="pill">📁 Selecionar pasta</span> e escolha a pasta local que contém os arquivos Excel das listas. O app varre a pasta (inclusive subpastas) e processa cada arquivo <code>.xlsx</code>/<code>.xls</code> encontrado.</div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body"><strong>Aguarde a indexação.</strong> Uma barra de progresso mostra quantos arquivos já foram lidos. Cada aba (cliente) do Excel vira um registro pesquisável — o app procura o nome do cliente nas colunas J/K e a lista de SKUs automaticamente.</div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body"><strong>Atualizar sempre que a pasta mudar.</strong> Use <span class="pill">🔄 Atualizar listas</span> para reprocessar a pasta de forma incremental: só os arquivos novos ou alterados (data/tamanho diferentes) são reimportados, arquivos sem alteração são ignorados, e arquivos apagados da pasta são removidos automaticamente do índice.</div>
+      </div>
+      <div class="callout tip">
+        Navegadores baseados em Chromium (Edge, Chrome) memorizam a pasta selecionada entre sessões — ao reabrir o app, ele tenta atualizar sozinho se a permissão ainda for válida. Em outros navegadores, pode ser necessário selecionar a pasta novamente a cada sessão.
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <h2>📊 Dashboard &amp; Pesquisa</h2>
+      <p>Tela inicial do app. Mostra um resumo (cards) e a busca principal sobre todos os registros já indexados.</p>
+      <table>
+        <thead><tr><th>Card</th><th>O que mostra</th></tr></thead>
+        <tbody>
+          <tr><td>Total de arquivos</td><td>Quantidade de arquivos Excel distintos já indexados.</td></tr>
+          <tr><td>Total de clientes</td><td>Quantidade de números de cliente distintos encontrados.</td></tr>
+          <tr><td>Total de listas</td><td>Quantidade total de abas (registros) indexadas em todos os arquivos.</td></tr>
+          <tr><td>Clientes duplicados</td><td>Quantos clientes aparecem em mais de um arquivo (veja a aba Duplicados).</td></tr>
+          <tr><td>Última data importada</td><td>Data mais recente entre os nomes de arquivo indexados.</td></tr>
+        </tbody>
+      </table>
+      <h3>Como pesquisar</h3>
+      <ul>
+        <li>Digite qualquer termo na busca (nome do cliente, número, data, nome do arquivo ou um SKU) e o resultado é filtrado automaticamente.</li>
+        <li>Use o seletor ao lado da busca para restringir a pesquisa a um campo específico (ex.: só "Número do cliente").</li>
+        <li>Cada linha do resultado tem dois botões: <strong>Visualizar</strong> (abre um preview da planilha, com filtro rápido e paginação) e <strong>Abrir Excel</strong> (baixa/abre o arquivo original — veja a seção Configurações sobre integração com OneDrive).</li>
+        <li>Use <span class="pill">⬇ CSV</span> / <span class="pill">⬇ Excel</span> para exportar os resultados filtrados atualmente na tela.</li>
+      </ul>
+    </section>
+
+    <section id="duplicados">
+      <h2>🧬 Duplicados</h2>
+      <p>Lista os clientes que aparecem em mais de um arquivo indexado — útil para identificar listas de preço desatualizadas ou conflitantes para o mesmo cliente.</p>
+      <ul>
+        <li>Cada linha mostra o cliente, número, quantidade de listas em que ele aparece e as datas encontradas.</li>
+        <li>O botão <strong>Comparar / Consolidar</strong> abre um modal com todas as ocorrências desse cliente, permitindo abrir cada arquivo Excel individualmente para comparar os preços/SKUs entre as versões.</li>
+      </ul>
+    </section>
+
+    <section id="analise-preco">
+      <h2>💲 Análise de Preço</h2>
+      <p>Conjunto de ferramentas para cruzar a lista de preços MSS com o histórico de vendas do BPCS, aplicar os percentuais de reajuste anual e conferir preços informados por vendedores.</p>
+
+      <h3 id="analise-preco-bpcs">Cruzamento com BPCS</h3>
+      <div class="step"><div class="num">1</div><div class="body">Selecione o arquivo Excel exportado do BPCS que contenha as duas abas: <strong>"Preços MSS"</strong> (query ESP/IIM/ZLI, com colunas PRKEY, PFCT1-5 etc.) e <strong>"Historico de Vendas"</strong> (query SDD/IIM/RCM, com colunas COD, CODCLIENTE, PRECO, DATA etc.).</div></div>
+      <div class="step"><div class="num">2</div><div class="body">Clique em <span class="pill">🔗 Cruzar dados</span>. O cruzamento é feito por <strong>produto + cliente</strong>, sempre usando a venda mais recente de cada combinação como "último valor vendido".</div></div>
+      <div class="callout info">Esse cruzamento alimenta tanto o painel <a href="#analise-preco-comparativo">Comparativo gerenciamento</a> (tabela completa) quanto a <a href="#analise-preco-conferencia">Conferência rápida de itens</a> (busca por item + cliente).</div>
+
+      <h3 id="analise-preco-percentuais">Percentuais de reajuste</h3>
+      <p>Painel onde ficam configurados os percentuais de aumento aplicados no cálculo do reajuste (ex.: 2025, 2026, 2026 Extraordinário). Os valores ficam salvos no navegador e são aplicados de forma <strong>acumulada</strong>, de acordo com o ano da última venda encontrada:</p>
+      <ul>
+        <li><strong>Venda em 2024 ou antes:</strong> aplica todos os percentuais cadastrados (ex.: 2025 + 2026 + 2026 Extraordinário).</li>
+        <li><strong>Venda em 2025:</strong> aplica apenas os percentuais dos anos seguintes (ex.: 2026 + 2026 Extraordinário).</li>
+        <li><strong>Venda em 2026 em diante:</strong> aplica só o(s) percentual(is) ainda futuro(s)/extraordinário(s).</li>
+      </ul>
+      <ul>
+        <li><span class="pill">+ Próximo ano</span> adiciona um novo ano configurável ao final da lista.</li>
+        <li><span class="pill">− Ano anterior</span> remove o ano mais antigo configurado (sempre deve sobrar pelo menos um).</li>
+        <li><span class="pill">↺ Restaurar padrão</span> aplica os percentuais definidos em <a href="#configuracoes-percentuais-padrao">Configurações → Percentuais padrão de reajuste</a> (de fábrica: 5,9% / 4,9% / 8,9%).</li>
+      </ul>
+      <div class="callout warn">Se algum ano padrão tiver sido removido, o app o reinsere automaticamente ao carregar a página, para nunca deixar de aplicar um percentual em vendas antigas. Os anos/percentuais considerados "padrão" podem ser personalizados em <a href="#configuracoes-percentuais-padrao">Configurações → Percentuais padrão de reajuste</a>.</div>
+
+      <h3 id="analise-preco-conferencia">Conferência rápida de itens (colar do Excel)</h3>
+      <p>Permite colar rapidamente uma lista de itens copiados do Excel (ex.: de um pedido ou orçamento) e ver, para cada item, a última venda registrada no histórico do BPCS.</p>
+      <ol>
+        <li>Copie no Excel 5 colunas nesta ordem: <strong>Linha do item</strong>, <strong>Número do item</strong>, <strong>Quantidade</strong> (padrão 0,001 se vazio), <strong>Preço passado por vendas</strong> e <strong>Data</strong>.</li>
+        <li>Cole no campo de texto e clique em <span class="pill">🔗 Cruzar itens colados</span>.</li>
+        <li>Um popup pede o <strong>número do cliente</strong>. Se o mesmo grupo de cliente tiver mais de um código, informe todos separados por <code>+</code> (ex.: <code>35002315+35002316</code>) — o app busca a venda mais recente considerando qualquer um desses códigos.</li>
+        <li>A tabela mostra o último preço vendido, a data dessa venda e o range PFCT1–PFCT5 do MSS para cada item, além da variação % contra o MSS e contra o último valor vendido.</li>
+      </ol>
+      <ul>
+        <li>Clique na <strong>data da última venda</strong> (ícone 🔽) para escolher outra venda entre todas as encontradas para aquele item/cliente — útil quando há mais de uma venda no histórico. Ao lado da data também aparece o nome/código do cliente que gerou aquela venda (importante quando mais de um cliente foi informado).</li>
+        <li>Use <strong>Ano + "Aplicar ano a todas as linhas"</strong> para forçar todas as linhas a usarem a venda mais recente de um ano específico (mantendo a mais recente disponível quando não houver venda naquele ano).</li>
+        <li>O ✕ em cada linha remove aquele item da conferência.</li>
+      </ul>
+
+      <h3 id="analise-preco-reajuste">Calcular preço reajustado</h3>
+      <p>Usa os itens colados na "Conferência rápida de itens" para calcular o preço reajustado e comparar com o preço informado pelo vendedor.</p>
+      <div class="step"><div class="num">1</div><div class="body">Clique em <span class="pill">📥 Calcular reajuste dos itens colados</span>.</div></div>
+      <table>
+        <thead><tr><th>Coluna</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Preço base</td><td>Último preço vendido encontrado no cruzamento com o BPCS (fica em branco se o cliente nunca comprou esse item).</td></tr>
+          <tr><td>Ano última venda</td><td>Ano usado para decidir quais percentuais acumular.</td></tr>
+          <tr><td>Percentuais aplicados</td><td>Lista dos percentuais somados no cálculo (ex.: "2025 + 2026 + 2026 Extraordinário").</td></tr>
+          <tr><td>Preço reajustado</td><td>Preço base multiplicado pelos percentuais acumulados. Clique na célula para marcar/desmarcar a linha (destaque amarelo).</td></tr>
+          <tr><td>Preço informado</td><td>Preço colado originalmente (o que o vendedor informou).</td></tr>
+          <tr><td>% Diferença</td><td>Diferença percentual entre o preço informado e o preço reajustado.</td></tr>
+          <tr><td>Confere?</td><td>"Confere" (verde) quando a diferença é de até R$ 0,05; "Não confere" (laranja) caso contrário. Clique em "🔍 Explicar cálculo" para ver o passo a passo.</td></tr>
+          <tr><td>Faixa MSS</td><td>Indica se o preço reajustado cai dentro do range PFCT1–PFCT5 do MSS. Clique para ver/ajustar os valores do range.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">Itens sem venda anterior para o(s) cliente(s) informado(s) continuam aparecendo na tabela (com "Preço base" e "Preço reajustado" em branco), justamente para você conseguir consultar o range do MSS mesmo sem histórico de compra.</div>
+
+      <h3 id="analise-preco-comparativo">Comparativo gerenciamento</h3>
+      <p>Tabela completa com todo o cruzamento BPCS (todos os produtos × clientes), com filtros por cliente/produto e exportação para CSV/Excel. Como é uma tabela grande e pouco usada no dia a dia, ela fica escondida atrás do ícone flutuante 🔗 no canto inferior direito da tela — clique nele para abrir o comparativo em uma janela (modal).</p>
+    </section>
+
+    <section id="historico">
+      <h2>🕘 Histórico</h2>
+      <p>Guarda as últimas 20 pesquisas realizadas no Dashboard, para reaproveitar rapidamente uma busca anterior. Use <strong>Limpar histórico</strong> para apagar essa lista.</p>
+    </section>
+
+    <section id="configuracoes">
+      <h2>⚙️ Configurações</h2>
+      <h3>Banco de dados local</h3>
+      <p>Todos os dados extraídos ficam armazenados apenas no navegador (IndexedDB) — nada é enviado para servidores externos. Use <strong>🗑 Limpar índice completo</strong> para apagar todo o índice e recomeçar do zero (não afeta os arquivos Excel originais).</p>
+      <h3>Histórico de pesquisas</h3>
+      <p>Mesmo botão de limpeza do histórico, disponível também nesta tela.</p>
+      <h3 id="configuracoes-percentuais-padrao">Percentuais padrão de reajuste</h3>
+      <p>Painel para personalizar os anos e percentuais que servem de <strong>padrão</strong> da aplicação — diferente do painel "Percentuais de reajuste" (em Análise de Preço), que edita os valores <em>atualmente ativos</em> no cálculo. Os padrões configurados aqui são usados em dois momentos:</p>
+      <ul>
+        <li>Quando você clica em <strong>↺ Restaurar padrão</strong> no painel de Análise de Preço.</li>
+        <li>Automaticamente, para reinserir um ano padrão que tenha sido removido por engano do painel ativo (evitando que vendas antigas deixem de receber algum percentual).</li>
+      </ul>
+      <p>Para cada ano padrão é possível editar o <strong>ano</strong>, um <strong>rótulo opcional</strong> (ex.: "2026 Extraordinário", para diferenciar de um reajuste normal do mesmo ano) e o <strong>percentual (%)</strong>. Os botões disponíveis são:</p>
+      <ul>
+        <li><span class="pill">+ Adicionar ano padrão</span> inclui um novo ano ao final da lista de padrões.</li>
+        <li><span class="pill">− Remover ano padrão</span> remove o último ano padrão da lista (sempre deve sobrar pelo menos um).</li>
+        <li><span class="pill">↺ Restaurar valores de fábrica</span> descarta a personalização e volta os padrões para 5,9% / 4,9% / 8,9% (2025 / 2026 / 2026 Extraordinário).</li>
+      </ul>
+      <div class="callout tip">As alterações são salvas automaticamente neste navegador conforme você digita — não é preciso clicar em nenhum botão de "salvar" separado.</div>
+      <h3>Integração com OneDrive / Excel Online</h3>
+      <p>Se os arquivos também estiverem sincronizados em uma pasta do OneDrive, cole aqui o link web dessa pasta (copiado ao abrir a pasta em onedrive.com). A partir daí, o botão <strong>Abrir Excel</strong> passa a abrir a pasta do OneDrive (em vez de baixar o arquivo localmente) e copia o nome do arquivo para a área de transferência, para você colar na busca do OneDrive.</p>
+      <h3>Sobre a abertura de arquivos</h3>
+      <p>Por limitação de segurança dos navegadores, uma página web não pode abrir diretamente um programa externo (como o Excel) no computador do usuário. Sem uma pasta do OneDrive configurada, o botão "Abrir Excel" baixa o arquivo e o navegador oferece a opção "Abrir arquivo" na notificação de download. Isso só funciona para arquivos já carregados na sessão atual (após selecionar/atualizar a pasta); caso contrário, o app orienta a reselecionar a pasta.</p>
+    </section>
+
+    <section id="duvidas">
+      <h2>❓ Perguntas frequentes</h2>
+      <h3>Apaguei um arquivo da pasta, mas ele ainda aparece no app. O que fazer?</h3>
+      <p>Clique em <span class="pill">🔄 Atualizar listas</span>. O app compara os arquivos atuais da pasta com o que já foi indexado e remove automaticamente os registros de arquivos que não existem mais.</p>
+      <h3>Meus dados somem se eu trocar de computador?</h3>
+      <p>Sim — o índice é local ao navegador. Em outro computador (ou outro navegador), selecione a pasta novamente para reconstruir o índice.</p>
+      <h3>Por que um item aparece "Fora do range do MSS" mesmo sem venda anterior?</h3>
+      <p>O range PFCT1–PFCT5 vem direto do arquivo de preços MSS, independente de haver venda para aquele cliente. A comparação de "dentro/fora do range" só é feita quando existe um preço reajustado calculado (ou seja, quando há venda anterior); sem venda, a faixa aparece apenas como referência.</p>
+      <h3>Os percentuais de reajuste sumiram / não aplicam mais um ano.</h3>
+      <p>Vá em <a href="#analise-preco-percentuais">Análise de Preço → Percentuais de reajuste</a> e confira se todos os anos esperados aparecem. Se algum estiver faltando, clique em <strong>↺ Restaurar padrão</strong> ou simplesmente recarregue a página — anos padrão ausentes (definidos em <a href="#configuracoes-percentuais-padrao">Configurações → Percentuais padrão de reajuste</a>) são reinseridos automaticamente.</p>
+      <h3>Posso mudar os percentuais que o botão "Restaurar padrão" aplica?</h3>
+      <p>Sim. Vá em <a href="#configuracoes-percentuais-padrao">Configurações → Percentuais padrão de reajuste</a> e edite os anos, rótulos e percentuais. As alterações são salvas automaticamente neste navegador.</p>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

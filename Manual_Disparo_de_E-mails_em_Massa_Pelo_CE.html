@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual — Disparo de e-mails em massa pelo Dynamics 365</title>
+<style>
+    :root {
+        --marca: #9B0047;
+        --marca-escura: #7A0038;
+        --marca-clara: #fce8f0;
+        --verde: #107c10;
+        --ambar: #9a6700;
+        --ambar-fundo: #fff4ce;
+        --vermelho: #d13438;
+        --vermelho-fundo: #fde7e9;
+        --verde-fundo: #dff6dd;
+        --tinta: #242424;
+        --tinta-fraca: #5b5b5b;
+        --linha: #e3e3e3;
+        --papel: #ffffff;
+        --fundo: #f0f2f5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--fundo);
+        color: var(--tinta);
+        line-height: 1.65;
+        margin: 0;
+        padding: 32px 16px 64px;
+        font-size: 16px;
+    }
+
+    .folha {
+        max-width: 780px;
+        margin: 0 auto;
+        background: var(--papel);
+        border-radius: 10px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .capa {
+        background: linear-gradient(135deg, var(--marca) 0%, var(--marca-escura) 100%);
+        color: #fff;
+        padding: 40px 44px 36px;
+    }
+
+    .capa h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    .capa p {
+        margin: 0;
+        font-size: 15px;
+        opacity: 0.92;
+        max-width: 58ch;
+    }
+
+    .conteudo { padding: 8px 44px 48px; }
+
+    h2 {
+        color: var(--marca-escura);
+        font-size: 21px;
+        font-weight: 600;
+        margin: 42px 0 14px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--linha);
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 26px 0 8px;
+    }
+
+    p, li { max-width: 68ch; }
+
+    ul, ol { padding-left: 22px; }
+    li { margin-bottom: 8px; }
+
+    code, .tag {
+        font-family: Consolas, 'Courier New', monospace;
+        font-size: 0.92em;
+    }
+
+    .tag {
+        background: var(--marca-clara);
+        color: var(--marca-escura);
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14.5px;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--linha);
+        vertical-align: top;
+    }
+
+    th {
+        background: #f7f9fb;
+        font-weight: 600;
+        color: var(--tinta-fraca);
+    }
+
+    td:first-child { white-space: nowrap; }
+
+    .obrigatorio {
+        color: var(--vermelho);
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .opcional {
+        color: var(--tinta-fraca);
+        font-size: 13px;
+    }
+
+    .fluxo {
+        list-style: none;
+        counter-reset: etapa;
+        padding: 0;
+        margin: 18px 0;
+        border-left: 2px solid var(--marca);
+    }
+
+    .fluxo li {
+        counter-increment: etapa;
+        position: relative;
+        padding: 0 0 16px 46px;
+        margin: 0;
+    }
+
+    .fluxo li::before {
+        content: counter(etapa);
+        position: absolute;
+        left: -15px;
+        top: 1px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--marca);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .fluxo strong { display: block; }
+
+    .caixa {
+        padding: 16px 18px;
+        border-radius: 7px;
+        margin: 20px 0;
+        border: 1px solid;
+    }
+
+    .caixa p:last-child, .caixa ul:last-child { margin-bottom: 0; }
+    .caixa p:first-child { margin-top: 0; }
+
+    .caixa--bloqueio {
+        background: var(--vermelho-fundo);
+        border-color: var(--vermelho);
+        color: #8a1f22;
+    }
+
+    .caixa--atencao {
+        background: var(--ambar-fundo);
+        border-color: #e6c74c;
+        color: #5c4b00;
+    }
+
+    .caixa--ok {
+        background: var(--verde-fundo);
+        border-color: var(--verde);
+        color: #0b5a0b;
+    }
+
+    .caixa b { font-weight: 600; }
+
+    .botao {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        margin: 6px 8px 6px 0;
+    }
+
+    .botao--excel { background: #107c41; color: #fff; }
+    .botao--excel:hover { background: #0b5a2f; }
+
+    .botao--atalho {
+        background: var(--marca);
+        color: #fff;
+        cursor: grab;
+        border: 2px dashed transparent;
+        padding: 14px 26px;
+        border-radius: 26px;
+    }
+
+    .botao--atalho:hover { background: var(--marca-escura); border-color: #fff; }
+    .botao--atalho:active { cursor: grabbing; }
+
+    .botao:focus-visible { outline: 3px solid #ffb900; outline-offset: 2px; }
+
+    .exemplo {
+        background: #fafafa;
+        border: 1px solid var(--linha);
+        border-left: 3px solid var(--marca);
+        border-radius: 6px;
+        padding: 14px 16px;
+        margin: 14px 0;
+        font-size: 14.5px;
+    }
+
+    .exemplo .rotulo {
+        color: var(--tinta-fraca);
+        font-size: 12px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .tela {
+        border: 1px solid var(--linha);
+        border-radius: 8px;
+        margin: 18px 0;
+        overflow: hidden;
+    }
+
+    .tela__topo {
+        padding: 12px 16px;
+        font-weight: 600;
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .tela__topo--marca { background: var(--marca); }
+    .tela__topo--vermelho { background: var(--vermelho); }
+    .tela__topo--verde { background: var(--verde); }
+    .tela__corpo { padding: 14px 16px; font-size: 15px; }
+    .tela__corpo p { margin: 0 0 10px; }
+    .tela__corpo p:last-child { margin-bottom: 0; }
+
+    footer {
+        max-width: 780px;
+        margin: 22px auto 0;
+        color: var(--tinta-fraca);
+        font-size: 13px;
+        text-align: center;
+    }
+
+    @media (max-width: 620px) {
+        body { padding: 0 0 40px; }
+        .folha { border-radius: 0; }
+        .capa { padding: 30px 22px; }
+        .capa h1 { font-size: 24px; }
+        .conteudo { padding: 4px 22px 36px; }
+        td:first-child { white-space: normal; }
+    }
+</style>
+</head>
+<body>
+
+<div class="folha">
+
+    <header class="capa">
+        <h1>Disparo de e-mails em massa pelo Dynamics 365</h1>
+        <p>Envie um e-mail personalizado para cada linha da sua planilha, direto do Dynamics, com conferência antes do envio.</p>
+    </header>
+
+    <div class="conteudo">
+
+        <h2>Como funciona</h2>
+        <p>Você preenche uma planilha, clica no atalho dentro do Dynamics e a ferramenta monta um e-mail para cada linha. Antes de enviar qualquer coisa, ela confere a planilha inteira e mostra o primeiro e-mail pronto para você aprovar.</p>
+
+        <ol class="fluxo">
+            <li><strong>Você seleciona a planilha</strong>A ferramenta lê a primeira aba do arquivo.</li>
+            <li><strong>A planilha é conferida por inteiro</strong>Todas as linhas são verificadas antes de qualquer envio.</li>
+            <li><strong>Você aprova o primeiro e-mail</strong>Aparece o e-mail já montado, como o cliente vai receber.</li>
+            <li><strong>Os e-mails são enviados um a um</strong>Meio segundo de intervalo entre cada envio.</li>
+            <li><strong>Você recebe o resumo</strong>Quantos foram enviados, quantos falharam e o tempo total.</li>
+        </ol>
+
+        <div class="caixa caixa--ok">
+            <p>Se qualquer linha tiver problema, o disparo não começa. Você corrige a planilha e executa de novo, sem risco de um cliente receber um e-mail pela metade.</p>
+        </div>
+
+        <h2>1. Instalar o atalho (só na primeira vez)</h2>
+        <p>Deixe a barra de favoritos visível — <code>Ctrl + Shift + B</code> mostra ou esconde. Depois clique, segure e arraste o botão abaixo para dentro dela.</p>
+
+        <a class="botao botao--atalho" href="javascript:(async()=>{const js=await fetch('https://raw.githubusercontent.com/filipegodoiessentra/dynamics-snippets/refs/heads/main/Disparo de e-mails?t='+Date.now()).then(r=>r.text());eval(js);})();" title="Arraste-me para a barra de favoritos">🚀 Disparo de E-mails Dynamics</a>
+
+        <p>O atalho sempre busca a versão mais recente da ferramenta, então não é preciso reinstalá-lo quando houver atualizações.</p>
+
+        <h2>2. Preencher a planilha</h2>
+
+        <a class="botao botao--excel" href="https://essentra-my.sharepoint.com/:x:/r/personal/filipegodoi_essentra_com/Documents/Desktop/Book1.xlsx?d=w26b6897a59314eca8a9a1790bcb5b7b4&amp;csf=1&amp;web=1&amp;e=QIk8cq" target="_blank" rel="noopener">📥 Baixar a planilha modelo (.xlsx)</a>
+
+        <p>A primeira linha guarda os nomes das colunas e cada linha seguinte é um e-mail. Acentos e maiúsculas nos títulos não fazem diferença: <code>COTAÇÃO</code>, <code>Cotacao</code> e <code>cotação</code> são lidos da mesma forma.</p>
+
+        <table>
+            <thead>
+                <tr><th>Coluna</th><th>Para que serve</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ID <span class="obrigatorio">obrigatória</span></td><td>Identificador do registro. Entra no assunto do e-mail.</td></tr>
+                <tr><td>EMAIL <span class="obrigatorio">obrigatória</span></td><td>Destinatário. Um endereço por linha.</td></tr>
+                <tr><td>TITULO DO EMAIL <span class="obrigatorio">obrigatória</span></td><td>Base do assunto.</td></tr>
+                <tr><td>TEXTO <span class="obrigatorio">obrigatória</span></td><td>Corpo da mensagem, com as tags de substituição.</td></tr>
+                <tr><td>NCOTAÇÃO <span class="opcional">opcional</span></td><td>Entra no assunto, logo após o título.</td></tr>
+                <tr><td>CSAL <span class="opcional">opcional</span></td><td>Entra no fim do assunto.</td></tr>
+                <tr><td>Outras colunas <span class="opcional">opcional</span></td><td>Qualquer coluna que você criar pode ser usada como tag no texto.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Como o assunto é montado</h3>
+        <p>O assunto é montado automaticamente nesta ordem, pulando o que estiver vazio:</p>
+
+        <div class="exemplo">
+            <span class="rotulo">Assunto gerado</span>
+            <code>TITULO DO EMAIL &nbsp;NCOTAÇÃO&nbsp; - &nbsp;ID&nbsp; - &nbsp;CSAL</code>
+        </div>
+
+        <h3>Tags de substituição</h3>
+        <p>No corpo do e-mail, escreva o nome de qualquer coluna entre chaves duplas. A ferramenta troca a tag pelo valor daquela linha.</p>
+
+        <ul>
+            <li><span class="tag">{{NOME}}</span> — valor da coluna NOME daquela linha</li>
+            <li><span class="tag">{{COTAÇÃO}}</span> — valor da coluna COTAÇÃO</li>
+            <li><span class="tag">{{NOME DO CLIENTE}}</span> — colunas com espaço funcionam normalmente</li>
+            <li><span class="tag">{{SAUDACAO}}</span> — vira “bom dia”, “boa tarde” ou “boa noite” conforme o horário do envio</li>
+        </ul>
+
+        <p>Espaços, acentos e underscores no nome da tag são ignorados na comparação, então <span class="tag">{{NOME_DO_CLIENTE}}</span> e <span class="tag">{{NOME DO CLIENTE}}</span> apontam para a mesma coluna.</p>
+
+        <div class="exemplo">
+            <span class="rotulo">No Excel, coluna TEXTO</span>
+            Olá {{NOME}}, {{SAUDACAO}}.<br>
+            Segue o retorno sobre a cotação {{COTAÇÃO}}.
+            <br><br>
+            <span class="rotulo">O que o cliente recebe</span>
+            Olá Marina, bom dia.<br>
+            Segue o retorno sobre a cotação 48231.
+        </div>
+
+        <div class="caixa caixa--atencao">
+            <p><b>Digitou uma tag que não existe como coluna?</b> A linha é bloqueada. É assim que a ferramenta evita que alguém receba um e-mail começando com “Olá {{NOME_CLIENTE}}”.</p>
+        </div>
+
+        <h2>3. Disparar</h2>
+        <ol>
+            <li>Entre no Dynamics 365 e espere a tela inicial carregar por completo.</li>
+            <li>Clique no atalho <strong>🚀 Disparo de E-mails Dynamics</strong> na barra de favoritos.</li>
+            <li>Selecione a planilha preenchida na janela que abrir.</li>
+            <li>Opcional: pressione <code>F12</code> e abra a aba <strong>Console</strong> para acompanhar cada envio em tempo real.</li>
+        </ol>
+
+        <h2>4. As três telas que podem aparecer</h2>
+
+        <div class="tela">
+            <div class="tela__topo tela__topo--vermelho">❌ Planilha com problemas</div>
+            <div class="tela__corpo">
+                <p>Aparece quando alguma linha não passou na conferência. Mostra quantos registros foram analisados, quantos estão válidos e a lista de problemas com o número da linha do Excel.</p>
+                <p><strong>Nenhum e-mail foi enviado.</strong> Só existe o botão <em>Fechar e corrigir</em>. Ajuste a planilha e rode o atalho de novo.</p>
+            </div>
+        </div>
+
+        <div class="tela">
+            <div class="tela__topo tela__topo--marca">📧 Pré-visualização do disparo</div>
+            <div class="tela__corpo">
+                <p>Aparece quando a planilha está inteira válida. Mostra o primeiro e-mail já montado: destinatário, ID, assunto final e o corpo com as tags substituídas.</p>
+                <p><em>Cancelar</em> encerra sem enviar nada. <em>Disparar X e-mails</em> começa o envio real, incluindo o registro mostrado na tela.</p>
+            </div>
+        </div>
+
+        <div class="tela">
+            <div class="tela__topo tela__topo--verde">✅ Disparo finalizado</div>
+            <div class="tela__corpo">
+                <p>Fecha o processo com total processado, enviados, falhas e tempo total. Se algum envio falhar, o cabeçalho fica âmbar e a tela lista cada falha com a linha do Excel, o destinatário e o motivo devolvido pelo Dynamics.</p>
+            </div>
+        </div>
+
+        <h2>5. O que bloqueia o disparo</h2>
+        <p>A conferência acontece antes de qualquer envio e qualquer item abaixo trava o lote inteiro:</p>
+
+        <table>
+            <thead>
+                <tr><th>Mensagem</th><th>O que fazer</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Cabeçalhos obrigatórios não encontrados</td><td>Confira os nomes na primeira linha. Use a planilha modelo como referência.</td></tr>
+                <tr><td>Campo obrigatório ausente</td><td>Preencha ID, EMAIL, TITULO DO EMAIL ou TEXTO na linha indicada.</td></tr>
+                <tr><td>EMAIL inválido</td><td>Endereços como <code>fulano@</code>, <code>@empresa.com</code> ou com espaço são recusados. Também não é possível colocar dois endereços na mesma célula.</td></tr>
+                <tr><td>Variáveis não encontradas</td><td>A tag citada não corresponde a nenhuma coluna. Corrija a escrita ou crie a coluna.</td></tr>
+                <tr><td>Placeholder malformado</td><td>Faltou abrir ou fechar as chaves duplas, como em <code>{{NOME</code>.</td></tr>
+            </tbody>
+        </table>
+
+        <p>Erros devolvidos pelo Dynamics durante o envio são diferentes: eles não travam o lote. A ferramenta registra a falha, segue para o próximo registro e lista tudo no resumo final. Não há reenvio automático — quem falhou precisa entrar em um novo lote.</p>
+
+        <h2>6. Avisos operacionais</h2>
+
+        <div class="caixa caixa--bloqueio">
+            <p><b>Mantenha a aba aberta e ativa.</b> Fechar a página, atualizar, fazer logout ou deixar o computador suspender interrompe o envio no meio do lote. O que já saiu não volta atrás.</p>
+        </div>
+
+        <div class="caixa caixa--atencao">
+            <p><b>Trabalhe com lotes de 1.000 a 3.000 contatos.</b> Lotes maiores correm o risco de a sessão do Dynamics expirar durante o processo.</p>
+            <p>O intervalo é de meio segundo entre cada e-mail, mais o tempo de resposta do Dynamics. Na prática, mil e-mails levam por volta de 15 a 25 minutos.</p>
+        </div>
+
+        <div class="caixa caixa--atencao">
+            <p><b>Confira a pré-visualização com calma.</b> É o último ponto em que dá para voltar atrás. Depois de clicar em disparar, o envio não pode ser cancelado pela ferramenta.</p>
+        </div>
+
+    </div>
+</div>
+
+<footer>Dúvidas ou erros inesperados: guarde o print da tela e o conteúdo do Console (F12) antes de tentar de novo.</footer>
+
+</body>
+</html>

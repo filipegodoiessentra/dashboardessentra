@@ -90,6 +90,38 @@
             gap: 15px; /* Garante que o ícone, texto e badge não se esmaguem */
         }
 
+        .link-row {
+            display: flex;
+            align-items: stretch;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .link-row .link-item {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .doc-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            flex-shrink: 0;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            background: #f8f9fa;
+            color: var(--essentra-dark-grey);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .doc-link:hover {
+            background: #ffffff;
+            border-color: var(--essentra-light-grey);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
         .link-item:hover {
             background: #ffffff;
             border-color: var(--essentra-light-grey);
@@ -197,28 +229,43 @@
                 <span class="badge-drag"><i class="fa-solid fa-hand-pointer"></i> Arraste</span>
             </a>
 
-            <a class="link-item" title="Arraste para os favoritos" href="javascript:(async()=>{const js=await fetch('https://raw.githubusercontent.com/filipegodoiessentra/dynamics-snippets/refs/heads/main/rotear-cases.js?t='+Date.now()).then(r=>r.text());eval(js);})();">
-                <i class="fa-solid fa-briefcase"></i> 
-                <span class="link-text">Roteador de Cases</span>
-                <span class="badge-drag"><i class="fa-solid fa-hand-pointer"></i> Arraste</span>
-            </a>
+            <div class="link-row">
+                <a class="link-item" title="Arraste para os favoritos" href="javascript:(async()=>{const js=await fetch('https://raw.githubusercontent.com/filipegodoiessentra/dynamics-snippets/refs/heads/main/rotear-cases.js?t='+Date.now()).then(r=>r.text());eval(js);})();">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span class="link-text">Roteador de Cases</span>
+                    <span class="badge-drag"><i class="fa-solid fa-hand-pointer"></i> Arraste</span>
+                </a>
+                <a class="doc-link" href="Regras_Roteamento_Cases_Dynamics_CE.pdf" target="_blank" rel="noopener" title="Abrir documentação do roteador de cases" aria-label="Abrir documentação do roteador de cases">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </a>
+            </div>
 
-            <a class="link-item" title="Arraste para os favoritos" href="javascript:(async()=>{const js=await fetch('https://raw.githubusercontent.com/filipegodoiessentra/dynamics-snippets/refs/heads/main/Disparo%20de%20e-mails?t='+Date.now()).then(r=>r.text());eval(js);})();">
-                <i class="fa-solid fa-paper-plane"></i> 
-                <span class="link-text">Disparo de E-mails em Massa</span>
-                <span class="badge-drag"><i class="fa-solid fa-hand-pointer"></i> Arraste</span>
-            </a>
+            <div class="link-row">
+                <a class="link-item" title="Arraste para os favoritos" href="javascript:(async()=>{const js=await fetch('https://raw.githubusercontent.com/filipegodoiessentra/dynamics-snippets/refs/heads/main/Disparo%20de%20e-mails?t='+Date.now()).then(r=>r.text());eval(js);})();">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span class="link-text">Disparo de E-mails em Massa</span>
+                    <span class="badge-drag"><i class="fa-solid fa-hand-pointer"></i> Arraste</span>
+                </a>
+                <a class="doc-link" href="Manual_Disparo_de_E-mails_em_Massa_Pelo_CE.html" target="_blank" rel="noopener" title="Abrir manual do disparo de e-mails" aria-label="Abrir manual do disparo de e-mails">
+                    <i class="fa-solid fa-book-open"></i>
+                </a>
+            </div>
         </div>
 
         <!-- Listas de Preços -->
         <div class="card pricing">
             <h2><i class="fa-solid fa-tags"></i> Listas de Preços</h2>
             
-            <a class="link-item" target="_blank" href="https://filipegodoiessentra.github.io/lista-de-preco/">
-                <i class="fa-solid fa-list-check"></i> 
-                <span class="link-text">Gerenciamento de Listas</span>
-                <span class="badge-link">Abrir Link <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-            </a>
+            <div class="link-row">
+                <a class="link-item" target="_blank" href="https://filipegodoiessentra.github.io/lista-de-preco/">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span class="link-text">Gerenciamento de Listas</span>
+                    <span class="badge-link">Abrir Link <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                </a>
+                <a class="doc-link" href="Documentacao%20Gerenciamento%20de%20Listas.html" target="_blank" rel="noopener" title="Abrir documentação do gerenciamento de listas" aria-label="Abrir documentação do gerenciamento de listas">
+                    <i class="fa-solid fa-book-open"></i>
+                </a>
+            </div>
 
             <a class="link-item" target="_blank" href="https://filipegodoiessentra.github.io/pricelist/">
                 <i class="fa-solid fa-file-import"></i> 
