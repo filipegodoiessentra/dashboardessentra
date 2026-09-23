@@ -59,6 +59,8 @@
 
   code, kbd{background:#eef0f2;border:1px solid #dfe2e6;border-radius:5px;padding:1px 6px;font-size:12.5px;font-family:Consolas,monospace;}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0 16px;}
+  .table-scroll{overflow-x:auto;margin:10px 0 16px;}
+  .table-scroll table{min-width:620px;margin:0;}
   thead th{text-align:left;background:#fafbfd;border-bottom:2px solid var(--border);padding:8px 10px;color:var(--text-muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
   tbody td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
 
@@ -141,6 +143,7 @@
     <section id="dashboard">
       <h2>📊 Dashboard &amp; Pesquisa</h2>
       <p>Tela inicial do app. Mostra um resumo (cards) e a busca principal sobre todos os registros já indexados.</p>
+      <div class="table-scroll">
       <table>
         <thead><tr><th>Card</th><th>O que mostra</th></tr></thead>
         <tbody>
@@ -151,6 +154,7 @@
           <tr><td>Última data importada</td><td>Data mais recente entre os nomes de arquivo indexados.</td></tr>
         </tbody>
       </table>
+      </div>
       <h3>Como pesquisar</h3>
       <ul>
         <li>Digite qualquer termo na busca (nome do cliente, número, data, nome do arquivo ou um SKU) e o resultado é filtrado automaticamente.</li>
@@ -209,6 +213,7 @@
       <h3 id="analise-preco-reajuste">Calcular preço reajustado</h3>
       <p>Usa os itens colados na "Conferência rápida de itens" para calcular o preço reajustado e comparar com o preço informado pelo vendedor.</p>
       <div class="step"><div class="num">1</div><div class="body">Clique em <span class="pill">📥 Calcular reajuste dos itens colados</span>.</div></div>
+      <div class="table-scroll">
       <table>
         <thead><tr><th>Coluna</th><th>Significado</th></tr></thead>
         <tbody>
@@ -222,6 +227,7 @@
           <tr><td>Faixa MSS</td><td>Indica se o preço reajustado cai dentro do range PFCT1–PFCT5 do MSS. Clique para ver/ajustar os valores do range.</td></tr>
         </tbody>
       </table>
+      </div>
       <div class="callout tip">Itens sem venda anterior para o(s) cliente(s) informado(s) continuam aparecendo na tabela (com "Preço base" e "Preço reajustado" em branco), justamente para você conseguir consultar o range do MSS mesmo sem histórico de compra.</div>
 
       <h3 id="analise-preco-comparativo">Comparativo gerenciamento</h3>
